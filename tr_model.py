@@ -3,14 +3,6 @@ from const import STATE as S, ACTION as A, REWARD as R, COEF as C
 from first import first_state, zero_reward
 I = S.index
 
-def first_state():
-  s = np.zeros(len(S.items))
-  s[I.LAST_US_MOVE] = S.LAST_US_MOVE.ESCALATE
-  s[I.LAST_CH_MOVE] = S.LAST_CH_MOVE.ESCALATE
-  s[I.USEC_GROWTH] = S.USEC_GROWTH.B23
-  s[I.CHEC_GROWTH] = S.CHEC_GROWTH.LT6
-  return s
-
 def trans(state, action):
   state[I.LAST_US_MOVE] = action[A.index.US_MOVE]
   state[I.LAST_CH_MOVE] = action[A.index.CH_MOVE]

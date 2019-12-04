@@ -10,10 +10,12 @@ def objectize(items):
   root = O()
   setattr(root, 'items', items)
   setattr(root, 'index', O())
+  setattr(root, 'N', len(items))
   for itemIdx, item in enumerate(items):
     setattr(root.index, item['name'], itemIdx)
     if 'values' in item:
       attr = O()
+      setattr(attr, 'N', len(item['values']))
       for idx, value in enumerate(item['values']):
         setattr(attr, value, idx)
       setattr(root, item['name'], attr)
