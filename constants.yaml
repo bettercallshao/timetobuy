@@ -24,26 +24,15 @@ STATE:
 
 - name: USEC_GROWTH
   values:
-  - '<2%'
-  - '2-3%'
-  - '>3%'
+  - 'LT2'
+  - 'B23'
+  - 'MT3'
 
 - name: CHEC_GROWTH
   values:
-  - '<6%'
-  - '>6%'
+  - 'LT6'
+  - 'MT6'
 
-- name: ROUND
-  values:
-  - FIRST_US
-  - FIRST_CH
-  - FIRST_FED
-  - SECOND_US
-  - SECOND_CH
-  - SECOND_FED
-  - THIRD_US
-  - THIRD_CH
-  - THIRD_FED
-  - FORTH_US
-  - FORTH_CH
-  - FORTH_FED
+COEF:
+  USEC_GROWTH: 100.0
+  CHEC_GROWTH: 100.0

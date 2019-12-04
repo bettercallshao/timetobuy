@@ -1,26 +1,26 @@
-import yaml
-import pprint
-
-class O(object):
-  def __repr__(self):
-    d = {key: val for key, val in self.__dict__.items() if key[0] != '_'}
-    return pprint.pformat(d, indent=2)
-
-def objectize(items):
-  root = O()
-  setattr(root, 'items', items)
-  setattr(root, 'index', O())
-  for itemIdx, item in enumerate(items):
-    setattr(root.index, item['name'], itemIdx)
-    attr = O()
-    for idx, value in enumerate(item['values']):
-      setattr(attr, value, idx)
-    setattr(root, item['name'], attr)
-  return root
-
-CONST = yaml.safe_load(open('constants.yaml'))
-STATE = objectize(CONST['STATE'])
-ACTION = objectize(CONST['ACTION'])
+import numpy as np
+from const import STATE as S, ACTION as A, COEF as C
+I = S.index
 
 def first_state():
-  return [0] * len(STATE.items)
+  s = np.zeros(S.items)
+  s[I.LAST_US_MOVE] = S.LAST_US_MOVE.ESCALATE
+  s[I.LAST_CH_MOVE] = S.LAST_CH_MOVE.ESCALATE
+
+def _internal_trans(state):
+  is_war = state[I.LAST_US_MOVE] + state[I.LAST_CH_MOVE] == 0
+  if is_war:
+    state[I.USEC_GROWTH] = max(0, state[I.USEC_GROWTH] - 1)
+  else:
+    state[I.USEC_GROWTH] = min(S.USEC_GROWTH.MT3, state[I.USEC_GROWTH] + 1)
+  return state
+
+def us_trans(state, action):
+  state[I.LAST_US_MOVE] = action
+  state = _internal_trans(state)
+  return state, state[I.USEC_GROWTH] * C.USEC_GROWTH
+
+def ch_trans(state, action):
+  state[I.LAST_CH_MOVE] = action
+  state = _internal_trans(state)
+  return state, state[I.CHEC_GROWTH] * C.CHEC_GROWTH
