@@ -6,9 +6,20 @@ ACTION:
 
 - name: CH_MOVE
   values:
-  - ESCALATE_TR
+  - ESCALATE
   - ESCALATE_FX
   - DEESCALATE
+
+- name: TRADE
+  values:
+  - BUY
+  - HOLD
+  - SELL
+
+REWARD:
+- name: US_PROFIT
+- name: CH_PROFIT
+- name: TRADER_PROFIT
 
 STATE:
 - name: LAST_US_MOVE
@@ -18,7 +29,7 @@ STATE:
 
 - name: LAST_CH_MOVE
   values:
-  - ESCALATE_TR
+  - ESCALATE
   - ESCALATE_FX
   - DEESCALATE
 

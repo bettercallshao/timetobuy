@@ -12,14 +12,16 @@ def objectize(items):
   setattr(root, 'index', O())
   for itemIdx, item in enumerate(items):
     setattr(root.index, item['name'], itemIdx)
-    attr = O()
-    for idx, value in enumerate(item['values']):
-      setattr(attr, value, idx)
-    setattr(root, item['name'], attr)
+    if 'values' in item:
+      attr = O()
+      for idx, value in enumerate(item['values']):
+        setattr(attr, value, idx)
+      setattr(root, item['name'], attr)
   return root
 
 CONST = yaml.safe_load(open('constants.yaml'))
 STATE = objectize(CONST['STATE'])
 ACTION = objectize(CONST['ACTION'])
+REWARD = objectize(CONST['REWARD'])
 COEF = O()
 COEF.__dict__.update(CONST['COEF'])
