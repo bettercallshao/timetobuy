@@ -1,0 +1,49 @@
+ACTION:
+- name: US_MOVE
+  values:
+  - ESCALATE
+  - DEESCALATE
+
+- name: CH_MOVE
+  values:
+  - ESCALATE_TR
+  - ESCALATE_FX
+  - DEESCALATE
+
+STATE:
+- name: LAST_US_MOVE
+  values:
+  - ESCALATE
+  - DEESCALATE
+
+- name: LAST_CH_MOVE
+  values:
+  - ESCALATE_TR
+  - ESCALATE_FX
+  - DEESCALATE
+
+- name: USEC_GROWTH
+  values:
+  - '<2%'
+  - '2-3%'
+  - '>3%'
+
+- name: CHEC_GROWTH
+  values:
+  - '<6%'
+  - '>6%'
+
+- name: ROUND
+  values:
+  - FIRST_US
+  - FIRST_CH
+  - FIRST_FED
+  - SECOND_US
+  - SECOND_CH
+  - SECOND_FED
+  - THIRD_US
+  - THIRD_CH
+  - THIRD_FED
+  - FORTH_US
+  - FORTH_CH
+  - FORTH_FED
