@@ -1,26 +1,24 @@
 import numpy as np
+import pandas as pd
 from const import ACTION as A, STATE as S, REWARD as R
+from first import zero_q
 I = S.index
 
-def first_state():
-  s = np.zeros(S.N, dtype='int')
-  s[I.LAST_US_MOVE] = S.LAST_US_MOVE.ESCALATE
-  s[I.LAST_CH_MOVE] = S.LAST_CH_MOVE.ESCALATE
-  s[I.USEC_GROWTH] = S.USEC_GROWTH.B23
-  s[I.CHEC_GROWTH] = S.CHEC_GROWTH.LT6
-  return s
+def show_q(q, action):
+  total = pd.DataFrame({'k': ['k']})
+  for idx, item in enumerate(S.items):
+    df = pd.DataFrame({
+      item['name']: item['values'],
+      str(idx): range(len(item['values']))
+    })
+    df['k'] = 'k'
+    total = pd.merge(total, df, on='k')
+  a = A.items[]
+  df = pd.DataFrame({
+    A
+  })
+  with pd.option_context('display.max_rows', None, 'display.max_columns', None):  # more options can be specified also
+    print(total)
 
-def zero_policy():
-  return np.zeros([len(item['values']) for item in S.items])
-
-def zero_reward():
-  return np.zeros(R.N)
-
-def zero_action():
-  return np.zeros(A.N, dtype='int')
-
-def zero_q(action):
-  return np.zeros([len(item['values']) for item in S.items] + [action.N])
-
-def random(action):
-  return np.random.randint(action.N)
+def test_show_q():
+  show_q(zero_q(A.US_MOVE))
