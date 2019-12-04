@@ -1,0 +1,68 @@
+ACTION:
+- name: US_MOVE
+  values:
+  - DEESCALATE
+  - ESCALATE
+
+- name: CH_MOVE
+  values:
+  - DEESCALATE
+  - ESCALATE
+  - FX_ESCALATE
+
+- name: TRADE
+  values:
+  - BUY
+  - SELL
+
+REWARD:
+- name: US_PROFIT
+- name: CH_PROFIT
+- name: TRADER_PROFIT
+
+STATE:
+- name: LAST_US_MOVE
+  values:
+  - DEESCALATE
+  - ESCALATE
+
+- name: LAST_CH_MOVE
+  values:
+  - DEESCALATE
+  - ESCALATE
+  - FX_ESCALATE
+
+- name: USEC_GROWTH
+  values:
+  - 'LT2'
+  - 'B23'
+  - 'MT3'
+
+- name: CHEC_GROWTH
+  values:
+  - 'LT5'
+  - 'B55'
+  - 'B56'
+  - 'B66'
+  - 'B67'
+  - 'MT7'
+
+- name: PRICE
+  range:
+    from: -99
+    to: 99
+
+- name: HOLDING
+  range:
+    from: -5
+    to: 5
+
+COEF:
+  USEC_VALUE: 100.0
+  USEC_DIFF: 60.0
+  US_LEAD: 35.0
+
+  CHEC_VALUE: 100.0
+  CHEC_DIFF: 60.0
+  CH_AUTO: 70.0
+  CH_FXCO: -20.0
