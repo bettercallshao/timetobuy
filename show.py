@@ -26,6 +26,7 @@ def show_q(q, action):
     total.loc[idx, 'value'] = q[tuple(row[i] for i in range(S.N+1))]
 
   total = total[[c for c in total.columns if isinstance(c, str)]]
+  total = total[total['value'] != 0].reset_index(drop=True)
 
   with pd.option_context(
     'display.max_rows', None,

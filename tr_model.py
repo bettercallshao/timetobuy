@@ -12,7 +12,9 @@ def trans(state, action):
   def inc(val, ceiling):
     return min(val + 1, ceiling)
 
-  is_war = state[I.LAST_US_MOVE] + state[I.LAST_CH_MOVE] == 0
+  is_war = (
+    (state[I.LAST_US_MOVE] != S.LAST_US_MOVE.DEESCALATE) or
+    (state[I.LAST_CH_MOVE] != S.LAST_CH_MOVE.DEESCALATE))
   if is_war:
     state[I.USEC_GROWTH] = dec(state[I.USEC_GROWTH])
     state[I.CHEC_GROWTH] = dec(state[I.CHEC_GROWTH])
@@ -21,8 +23,8 @@ def trans(state, action):
     state[I.CHEC_GROWTH] = inc(state[I.CHEC_GROWTH], S.CHEC_GROWTH.MT6)
 
   reward = zero_reward()
-  reward[R.index.US_PROFIT] = state[I.USEC_GROWTH] * C.USEC_GROWTH
-  reward[R.index.CH_PROFIT] = state[I.CHEC_GROWTH] * C.CHEC_GROWTH
+  reward[R.index.US_PROFIT] = 1 + state[I.USEC_GROWTH] * C.USEC_GROWTH
+  reward[R.index.CH_PROFIT] = 1 + state[I.CHEC_GROWTH] * C.CHEC_GROWTH
   return state, reward
 
 def test_state_trans():
