@@ -3,6 +3,7 @@ from tqdm import tqdm
 from const import STATE as S, ACTION as A, REWARD as R
 from first import first_state, zero_q, random, zero_action
 from tr_model import trans
+from show import show_q
 I = S.index
 
 ALPHA = 0.01
@@ -39,4 +40,5 @@ def rl_random_both(us_q, ch_q, niter, nrestart):
 ch_q = zero_q(A.CH_MOVE)
 us_q = zero_q(A.US_MOVE)
 
-us_q, ch_q = rl_random_both(us_q, ch_q, 999999, 20)
+us_q, ch_q = rl_random_both(us_q, ch_q, 99, 20)
+show_q(us_q, A.US_MOVE)
