@@ -40,5 +40,5 @@ def rl_random_both(us_q, ch_q, niter, nrestart):
 ch_q = zero_q(A.CH_MOVE)
 us_q = zero_q(A.US_MOVE)
 
-us_q, ch_q = rl_random_both(us_q, ch_q, 99, 20)
+us_q, ch_q = rl_random_both(us_q, ch_q, 9999, 20)
 show_q(us_q, A.US_MOVE)
