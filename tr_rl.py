@@ -1,4 +1,5 @@
 import numpy as np
+from functools import lru_cache
 from tqdm import tqdm
 from const import STATE as S, ACTION as A, REWARD as R
 from first import first_state, zero_q, random, zero_action
@@ -9,6 +10,7 @@ I = S.index
 ALPHA = 0.01
 GAMMA = 0.3
 EPSILON = 0.2
+
 
 def q_update(state, next_state, q, a, r):
   q[tuple(state)][a] += (
@@ -51,7 +53,7 @@ def rl_both(us_q, ch_q, niter, nrestart, nrandom):
   return us_q, ch_q
 
 
-def tr_train():
+def train():
   ch_q = zero_q(A.CH_MOVE)
   us_q = zero_q(A.US_MOVE)
 
@@ -67,3 +69,12 @@ def tr_train():
     np.save(f, us_q)
   with open('ch_q.npy', 'wb') as f:
     np.save(f, ch_q)
+
+
+@lru_cache
+def load_q():
+  with open('us_q.npy', 'wb') as f:
+    us_q = np.save(f)
+  with open('ch_q.npy', 'wb') as f:
+    ch_q = np.save(f)
+  return us_q, ch_q
