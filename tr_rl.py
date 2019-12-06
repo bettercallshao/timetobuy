@@ -14,7 +14,7 @@ def q_update(state, next_state, q, a, r):
   q[tuple(state)][a] += (
     ALPHA * (
       r
-      + GAMMA * np.max(us_q[tuple(next_state)])
+      + GAMMA * np.max(q[tuple(next_state)])
       - q[tuple(state)][a]
     )
   )
