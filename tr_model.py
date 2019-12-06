@@ -46,7 +46,7 @@ def trans(state, action, player):
   )
   reward[R.index.CH_PROFIT] = (0
     + (state[I.CHEC_GROWTH] - old[I.CHEC_GROWTH]) * C.CHEC_GROWTH
-    + (C.CH_AUTO if (state[I.LAST_CH_MOVE] == state[I.LAST_US_MOVE]) else 0)
+    + (C.CH_AUTO if (min(state[I.LAST_CH_MOVE], 1) == state[I.LAST_US_MOVE]) else 0)
     + (C.CH_FXCO if state[I.LAST_CH_MOVE] == S.LAST_CH_MOVE.FX_ESCALATE else 0)
   )
   return state, reward
