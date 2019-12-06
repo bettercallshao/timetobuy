@@ -83,18 +83,22 @@ def trans(state):
   us_q, ch_q = load_q()
   action = zero_action()
   action[A.index.US_MOVE] = np.argmax(us_q[tuple(state)])
+  print(us_q[tuple(state)])
   state, r1 = m.trans(state, action, A.US_MOVE)
   action[A.index.CH_MOVE] = np.argmax(ch_q[tuple(state)])
+  print(ch_q[tuple(state)])
   state, r2 = m.trans(state, action, A.CH_MOVE)
-  return state, r1 + r2
+  return state
 
 
 def test_train():
   train()
   state = first_state()
   show_s(state)
-  for _ in range(10):
-    state, r = trans(state)
+  for _ in range(4):
+    state = trans(state)
     show_s(state)
-    print(r)
-    print()
+
+
+if __name__ == '__main__':
+  test_train()

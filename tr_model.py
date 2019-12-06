@@ -32,26 +32,27 @@ def adjust_growth(state):
 
 def trans(state, action, player):
   old = np.copy(state)
+  new = np.copy(state)
   m = {
     A.US_MOVE: I.LAST_US_MOVE,
     A.CH_MOVE: I.LAST_CH_MOVE
   }
-  state[m[player]] = action[player.index]
-  state = adjust_growth(state)
+  new[m[player]] = action[player.index]
+  new = adjust_growth(new)
 
   reward = zero_reward()
   reward[R.index.US_PROFIT] = (0
-    + (state[I.USEC_GROWTH] - old[I.USEC_GROWTH]) * C.USEC_DIFF
-    + state[I.USEC_GROWTH] * C.USEC_VALUE
-    + (C.US_LEAD if (state[I.LAST_US_MOVE] == S.LAST_US_MOVE.ESCALATE) else 0)
+    + (new[I.USEC_GROWTH] - old[I.USEC_GROWTH]) * C.USEC_DIFF
+    + new[I.USEC_GROWTH] * C.USEC_VALUE
+    + (C.US_LEAD if (new[I.LAST_US_MOVE] == S.LAST_US_MOVE.ESCALATE) else 0)
   )
   reward[R.index.CH_PROFIT] = (0
-    + (state[I.CHEC_GROWTH] - old[I.CHEC_GROWTH]) * C.CHEC_DIFF
-    + state[I.CHEC_GROWTH] * C.CHEC_VALUE
-    + (C.CH_AUTO if (min(state[I.LAST_CH_MOVE], 1) == state[I.LAST_US_MOVE]) else 0)
-    + (C.CH_FXCO if state[I.LAST_CH_MOVE] == S.LAST_CH_MOVE.FX_ESCALATE else 0)
+    + (new[I.CHEC_GROWTH] - old[I.CHEC_GROWTH]) * C.CHEC_DIFF
+    + new[I.CHEC_GROWTH] * C.CHEC_VALUE
+    + (C.CH_AUTO if (min(new[I.LAST_CH_MOVE], 1) == new[I.LAST_US_MOVE]) else 0)
+    + (C.CH_FXCO if new[I.LAST_CH_MOVE] == S.LAST_CH_MOVE.FX_ESCALATE else 0)
   )
-  return state, reward
+  return new, reward
 
 
 def test_state_trans():

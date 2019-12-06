@@ -1,14 +1,14 @@
 ACTION:
 - name: US_MOVE
   values:
-  - ESCALATE
   - DEESCALATE
+  - ESCALATE
 
 - name: CH_MOVE
   values:
+  - DEESCALATE
   - ESCALATE
   - FX_ESCALATE
-  - DEESCALATE
 
 - name: TRADE
   values:
@@ -24,14 +24,14 @@ REWARD:
 STATE:
 - name: LAST_US_MOVE
   values:
-  - ESCALATE
   - DEESCALATE
+  - ESCALATE
 
 - name: LAST_CH_MOVE
   values:
+  - DEESCALATE
   - ESCALATE
   - FX_ESCALATE
-  - DEESCALATE
 
 - name: USEC_GROWTH
   values:
@@ -49,11 +49,11 @@ STATE:
   - 'MT7'
 
 COEF:
-  USEC_DIFF: 100.0
-  USEC_VALUE: 800.0
-  US_LEAD: 60.0
+  USEC_VALUE: 100.0
+  USEC_DIFF: 60.0
+  US_LEAD: 35.0
 
-  CHEC_DIFF: 100.0
-  CHEC_VALUE: 400.0
+  CHEC_VALUE: 100.0
+  CHEC_DIFF: 60.0
   CH_AUTO: 70.0
-  CH_FXCO: -40.0
+  CH_FXCO: -20.0
