@@ -18,6 +18,7 @@ def objectize(items):
       setattr(attr, 'N', len(item['values']))
       setattr(attr, 'name', item['name'])
       setattr(attr, 'values', item['values'])
+      setattr(attr, 'index', itemIdx)
       for idx, value in enumerate(item['values']):
         setattr(attr, value, idx)
       setattr(root, item['name'], attr)

@@ -7,7 +7,7 @@ ACTION:
 - name: CH_MOVE
   values:
   - ESCALATE
-  - ESCALATE_FX
+  - FX_ESCALATE
   - DEESCALATE
 
 - name: TRADE
@@ -30,7 +30,7 @@ STATE:
 - name: LAST_CH_MOVE
   values:
   - ESCALATE
-  - ESCALATE_FX
+  - FX_ESCALATE
   - DEESCALATE
 
 - name: USEC_GROWTH
@@ -41,9 +41,16 @@ STATE:
 
 - name: CHEC_GROWTH
   values:
-  - 'LT6'
-  - 'MT6'
+  - 'LT5'
+  - 'B55'
+  - 'B56'
+  - 'B66'
+  - 'B67'
+  - 'MT7'
 
 COEF:
   USEC_GROWTH: 100.0
   CHEC_GROWTH: 100.0
+  US_LEAD: 100.0
+  CH_AUTO: 100.0
+  CH_FXCO: -100.0

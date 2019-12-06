@@ -1,7 +1,8 @@
 import numpy as np
 import pandas as pd
 from const import ACTION as A, STATE as S, REWARD as R
-from first import zero_q
+from first import zero_q, first_state
+from pprint import pprint as pp
 I = S.index
 k = -1
 
@@ -35,5 +36,16 @@ def show_q(q, action):
   ):
     print(total)
 
+
 def test_show_q():
   show_q(zero_q(A.US_MOVE), A.US_MOVE)
+
+
+def show_s(state):
+  pp(
+    {item['name']: item['values'][state[idx]]
+    for idx, item in enumerate(S.items)})
+
+
+def test_show_s():
+  show_s(first_state())

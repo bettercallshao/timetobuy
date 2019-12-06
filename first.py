@@ -7,7 +7,7 @@ def first_state():
   s[I.LAST_US_MOVE] = S.LAST_US_MOVE.ESCALATE
   s[I.LAST_CH_MOVE] = S.LAST_CH_MOVE.ESCALATE
   s[I.USEC_GROWTH] = S.USEC_GROWTH.B23
-  s[I.CHEC_GROWTH] = S.CHEC_GROWTH.LT6
+  s[I.CHEC_GROWTH] = S.CHEC_GROWTH.MT7
   return s
 
 def zero_policy():
