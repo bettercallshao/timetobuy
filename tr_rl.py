@@ -117,5 +117,5 @@ def plot():
   plt.show()
 
 if __name__ == '__main__':
-  #train()
+  train()
   plot()
