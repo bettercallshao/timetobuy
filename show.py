@@ -36,6 +36,8 @@ def show_q(q, action):
   ):
     print(total)
 
+  return total
+
 
 def test_show_q():
   show_q(zero_q(A.US_MOVE), A.US_MOVE)

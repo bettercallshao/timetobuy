@@ -9,7 +9,10 @@ I = S.index
 
 ALPHA = 0.01
 GAMMA = 0.3
-EPSILON = 0.2
+EPSILON = 0.5
+NITER = 100 * 1000
+NRANDOM = 80 * 1000
+NRESTART = 10
 
 
 def q_update(state, next_state, q, a, r):
@@ -23,16 +26,19 @@ def q_update(state, next_state, q, a, r):
   )
   return q
 
-def rl_both(us_q, ch_q, niter, nrestart, nrandom):
+def train():
   """Run RL training loop"""
-  for cnt in tqdm(range(niter)):
-    if cnt % nrestart == 0:
+  ch_q = zero_q(A.CH_MOVE)
+  us_q = zero_q(A.US_MOVE)
+
+  for cnt in tqdm(range(NITER)):
+    if cnt % NRESTART == 0:
       state = first_state()
     action = zero_action()
     action[A.index.US_MOVE] = random(A.US_MOVE)
     action[A.index.CH_MOVE] = random(A.CH_MOVE)
 
-    rand_choice = cnt < nrandom or np.random.random(1)[0] < EPSILON
+    rand_choice = cnt < NRANDOM or np.random.random(1)[0] < EPSILON
 
     if not rand_choice:
       action[A.index.US_MOVE] = np.argmax(us_q[tuple(state)])
@@ -52,24 +58,9 @@ def rl_both(us_q, ch_q, niter, nrestart, nrandom):
       next_state[S.index.LAST_CH_MOVE], reward[R.index.CH_PROFIT])
     state = next_state
 
-  return us_q, ch_q
-
-
-def train():
-  """Wraps training process and saves parameters"""
-  ch_q = zero_q(A.CH_MOVE)
-  us_q = zero_q(A.US_MOVE)
-
-  us_q, ch_q = rl_both(us_q, ch_q, 30*1000, 10, 15*1000)
-  print()
-  print('US Q')
-  show_q(us_q, A.US_MOVE)
-  print()
-  print('CH Q')
-  show_q(ch_q, A.CH_MOVE)
-
   np.save('us_q', us_q)
   np.save('ch_q', ch_q)
+  return us_q, ch_q
 
 
 @lru_cache()
@@ -80,7 +71,6 @@ def load_q():
 
 def trans(state):
   """Transit state based on greedy Q"""
-  us_q, ch_q = load_q()
   action = zero_action()
   action[A.index.US_MOVE] = np.argmax(us_q[tuple(state)])
   print(us_q[tuple(state)])
@@ -93,6 +83,11 @@ def trans(state):
 
 def test_train():
   train()
+  us_q, ch_q = load_q()
+  print('US Q')
+  show_q(us_q, A.US_MOVE)
+  print('CH Q')
+  show_q(ch_q, A.CH_MOVE)
   state = first_state()
   show_s(state)
   for _ in range(5):
@@ -100,5 +95,27 @@ def test_train():
     show_s(state)
 
 
+def plot():
+  from pandasql import sqldf
+  from matplotlib import pyplot as plt, rc
+
+  us_q, ch_q = load_q()
+  sql = lambda q: sqldf(q, {'us': show_q(us_q, A.US_MOVE), 'ch': show_q(ch_q, A.CH_MOVE)})
+  fig, ax = plt.subplots(1, 1)
+  fig.set_size_inches(6, 6)
+
+  for move in ('DEESCALATE', 'ESCALATE', 'FX_ESCALATE'):
+    sql(("SELECT USEC_GROWTH, CHEC_GROWTH, CH_MOVE, value AS {move} FROM ch WHERE " +
+        "LAST_US_MOVE='ESCALATE' AND LAST_CH_MOVE='ESCALATE' AND USEC_GROWTH='LT2' AND CH_MOVE='{move}'")\
+        .format(move=move))\
+        .plot(x='CHEC_GROWTH', y=move, ax=ax, style='o-')
+  plt.xlim((-0.2, 2.2))
+  plt.ylabel('value')
+  plt.title('ch q (both escalate)')
+  plt.grid(True)
+  plt.savefig('ch_q.png')
+  plt.show()
+
 if __name__ == '__main__':
-  test_train()
+  #train()
+  plot()
