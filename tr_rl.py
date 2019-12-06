@@ -8,7 +8,7 @@ I = S.index
 
 ALPHA = 0.01
 GAMMA = 0.3
-EPSILON = 0.1
+EPSILON = 0.2
 
 def q_update(state, next_state, q, a, r):
   q[tuple(state)][a] += (
@@ -28,6 +28,10 @@ def rl_both(us_q, ch_q, niter, nrestart, nrandom):
     action[A.index.US_MOVE] = random(A.US_MOVE)
     action[A.index.CH_MOVE] = random(A.CH_MOVE)
 
+    rand_choice = cnt < nrandom or np.random.random(1)[0] < EPSILON
+
+    if not rand_choice:
+      action[A.index.US_MOVE] = np.argmax(us_q[tuple(state)])
     next_state, reward = trans(state, action, A.US_MOVE)
     us_q = q_update(state, next_state, us_q,
       next_state[S.index.LAST_US_MOVE], reward[R.index.US_PROFIT])
@@ -35,6 +39,8 @@ def rl_both(us_q, ch_q, niter, nrestart, nrandom):
       next_state[S.index.LAST_CH_MOVE], reward[R.index.CH_PROFIT])
     state = next_state
 
+    if not rand_choice:
+      action[A.index.CH_MOVE] = np.argmax(ch_q[tuple(state)])
     next_state, reward = trans(state, action, A.CH_MOVE)
     us_q = q_update(state, next_state, us_q,
       next_state[S.index.LAST_US_MOVE], reward[R.index.US_PROFIT])
@@ -47,7 +53,7 @@ def rl_both(us_q, ch_q, niter, nrestart, nrandom):
 ch_q = zero_q(A.CH_MOVE)
 us_q = zero_q(A.US_MOVE)
 
-us_q, ch_q = rl_random_both(us_q, ch_q, 299999, 20)
+us_q, ch_q = rl_both(us_q, ch_q, 300*1000, 10, 150*1000)
 print()
 print('US Q')
 show_q(us_q, A.US_MOVE)
