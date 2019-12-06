@@ -95,7 +95,7 @@ def test_train():
   train()
   state = first_state()
   show_s(state)
-  for _ in range(4):
+  for _ in range(8):
     state = trans(state)
     show_s(state)
 
