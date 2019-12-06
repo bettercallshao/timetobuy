@@ -8,6 +8,7 @@ I = S.index
 
 ALPHA = 0.01
 GAMMA = 0.3
+EPSILON = 0.1
 
 def q_update(state, next_state, q, a, r):
   q[tuple(state)][a] += (
@@ -19,20 +20,26 @@ def q_update(state, next_state, q, a, r):
   )
   return q
 
-def rl_random_both(us_q, ch_q, niter, nrestart):
+def rl_both(us_q, ch_q, niter, nrestart, nrandom):
   for cnt in tqdm(range(niter)):
     if cnt % nrestart == 0:
       state = first_state()
     action = zero_action()
     action[A.index.US_MOVE] = random(A.US_MOVE)
     action[A.index.CH_MOVE] = random(A.CH_MOVE)
-    next_state, reward = trans(state, action)
 
+    next_state, reward = trans(state, action, A.US_MOVE)
     us_q = q_update(state, next_state, us_q,
-      action[A.index.US_MOVE], reward[R.index.US_PROFIT])
+      next_state[S.index.LAST_US_MOVE], reward[R.index.US_PROFIT])
     ch_q = q_update(state, next_state, ch_q,
-      action[A.index.CH_MOVE], reward[R.index.CH_PROFIT])
+      next_state[S.index.LAST_CH_MOVE], reward[R.index.CH_PROFIT])
+    state = next_state
 
+    next_state, reward = trans(state, action, A.CH_MOVE)
+    us_q = q_update(state, next_state, us_q,
+      next_state[S.index.LAST_US_MOVE], reward[R.index.US_PROFIT])
+    ch_q = q_update(state, next_state, ch_q,
+      next_state[S.index.LAST_CH_MOVE], reward[R.index.CH_PROFIT])
     state = next_state
 
   return us_q, ch_q
