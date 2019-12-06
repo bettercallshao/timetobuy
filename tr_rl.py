@@ -50,13 +50,20 @@ def rl_both(us_q, ch_q, niter, nrestart, nrandom):
 
   return us_q, ch_q
 
-ch_q = zero_q(A.CH_MOVE)
-us_q = zero_q(A.US_MOVE)
 
-us_q, ch_q = rl_both(us_q, ch_q, 300*1000, 10, 150*1000)
-print()
-print('US Q')
-show_q(us_q, A.US_MOVE)
-print()
-print('CH Q')
-show_q(ch_q, A.CH_MOVE)
+def tr_train():
+  ch_q = zero_q(A.CH_MOVE)
+  us_q = zero_q(A.US_MOVE)
+
+  us_q, ch_q = rl_both(us_q, ch_q, 300*1000, 10, 150*1000)
+  print()
+  print('US Q')
+  show_q(us_q, A.US_MOVE)
+  print()
+  print('CH Q')
+  show_q(ch_q, A.CH_MOVE)
+
+  with open('us_q.npy', 'wb') as f:
+    np.save(f, us_q)
+  with open('ch_q.npy', 'wb') as f:
+    np.save(f, ch_q)
