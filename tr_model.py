@@ -41,11 +41,13 @@ def trans(state, action, player):
 
   reward = zero_reward()
   reward[R.index.US_PROFIT] = (0
-    + (state[I.USEC_GROWTH] - old[I.USEC_GROWTH]) * C.USEC_GROWTH
+    + (state[I.USEC_GROWTH] - old[I.USEC_GROWTH]) * C.USEC_DIFF
+    + state[I.USEC_GROWTH] * C.USEC_VALUE
     + (C.US_LEAD if (state[I.LAST_US_MOVE] == S.LAST_US_MOVE.ESCALATE) else 0)
   )
   reward[R.index.CH_PROFIT] = (0
-    + (state[I.CHEC_GROWTH] - old[I.CHEC_GROWTH]) * C.CHEC_GROWTH
+    + (state[I.CHEC_GROWTH] - old[I.CHEC_GROWTH]) * C.CHEC_DIFF
+    + state[I.CHEC_GROWTH] * C.CHEC_VALUE
     + (C.CH_AUTO if (min(state[I.LAST_CH_MOVE], 1) == state[I.LAST_US_MOVE]) else 0)
     + (C.CH_FXCO if state[I.LAST_CH_MOVE] == S.LAST_CH_MOVE.FX_ESCALATE else 0)
   )
