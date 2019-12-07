@@ -44,6 +44,10 @@ The model is relatively linear and simple, and there aren't many states. Therefo
 
 Players are trained in an synchronous manner, they takes turns and rewards are attributed to both players last moves.
 
+![yes](ch_q.png?raw=true)
+
+![yes](usec.png?raw=true)
+
 ## The T-Bond Trading Game
 
 Transition / reward model is defined in `trans()` method in `pm_model.py`, Q learning is defined in `train()` method in `pm_rl.py`.
@@ -57,3 +61,7 @@ This game assumes the trade war game to play out deterministically and a model o
 The game is episodic in nature, and the agent can buy and sell during four rounds of play and is forced to sell everything at the end. Gamma value is high here to accommodate the episodic nature of the game. The game is restarted per episode during training.
 
 There are more states in this game therefore more iterations are necessary.
+
+![yes](price.png?raw=true)
+
+![yes](mesh.png?raw=true)
