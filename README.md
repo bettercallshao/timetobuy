@@ -24,7 +24,7 @@ Authors: Shihan Sun, Shaoqing Tan
 
 ### Products
 
-* Final Project 3547.pptx - Presentation
+* Final Project 3547.pdf - Presentation
 * us_q.npy, ch_q.npy - Q maps for trade war game.
 * pm_q.npy - Q map for t-bond trading game.
 * ch_q.png - A sample of player CH's Q map.

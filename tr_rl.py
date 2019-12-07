@@ -134,9 +134,11 @@ def plot_usec_growth():
 
   n = 4
   state = first_state()
+  show_s(state)
   history = [state[I.USEC_GROWTH]]
   for _ in range(n-1):
     state = trans(state)
+    show_s(state)
     history += [state[I.USEC_GROWTH]]
 
   plt.plot(range(n), history, 'o-')
